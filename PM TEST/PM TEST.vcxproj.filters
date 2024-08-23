@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{0dc75b4c-d5df-43e6-87c2-66b1177776bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dispatchers">
+      <UniqueIdentifier>{f36a84e1-4c3e-4b10-b055-d95c5e074f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Examples 1">
+      <UniqueIdentifier>{fccf7fea-5256-4768-b85f-ade7bd9d7ed9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Examples 2">
+      <UniqueIdentifier>{0fe158df-90c1-4b78-b87a-52c16861c259}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GUI.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="Painter.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationStatistics.h">
+      <Filter>Source Files\Examples 2</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationStatisticsFunctions.h">
+      <Filter>Source Files\Examples 2</Filter>
+    </ClInclude>
+    <ClInclude Include="WAYU.h">
+      <Filter>Source Files\Examples 2</Filter>
+    </ClInclude>
+    <ClInclude Include="WAYE.h">
+      <Filter>Source Files\Examples 2</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_types.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleSimpleData.h">
+      <Filter>Source Files\Examples 1</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleSimpleDataFunctions.h">
+      <Filter>Source Files\Examples 1</Filter>
+    </ClInclude>
+    <ClInclude Include="Main_Example1.h">
+      <Filter>Source Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleDataItems.h">
+      <Filter>Source Files\Examples 1</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleDataItemsFunctions.h">
+      <Filter>Source Files\Examples 1</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleDataItemsDispatcher.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Source Files\Main</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
