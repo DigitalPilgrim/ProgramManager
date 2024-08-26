@@ -1,11 +1,15 @@
 #pragma once
 
-enum class ExampleSimpleDataFunctions
+struct ExampleSimpleDataFunctions
 {
-	SetTextData
-	, GetTextData
-	, SetDataInt1
-	, SetDataInt2
-	, GetDataInt1
-	, GetDataInt2
+	enum {
+		SetTextData
+		, GetTextData
+		, SetDataInt1
+		, SetDataInt2
+		, GetDataInt1
+		, GetDataInt2
+		, SetData
+		, GetData
+	};
 };

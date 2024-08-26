@@ -22,11 +22,12 @@ struct ApplicationStatistics
 	{
 		ObjectTypes::Register<ApplicationStatistics>(Objects::ApplicationStatistics);
 
-		AddFunction(this, &ApplicationStatistics::SetStatistics	 , (int)ApplicationStatisticsFunctions::Functions::SetStatistics);
-		AddFunction(this, &ApplicationStatistics::GetStatistics	 , (int)ApplicationStatisticsFunctions::Functions::GetStatistics);
-		AddFunction(this, &ApplicationStatistics::AddAction		 , (int)ApplicationStatisticsFunctions::Functions::AddAction);
-		AddFunction(this, &ApplicationStatistics::RemoveAction	 , (int)ApplicationStatisticsFunctions::Functions::RemoveAction);
-		AddFunction(this, &ApplicationStatistics::SetDataCreation, (int)ApplicationStatisticsFunctions::Functions::SetCreationData);
+		AddFunction(this, &ApplicationStatistics::SetStatistics	 , ApplicationStatisticsFunctions::SetStatistics);
+		AddFunction(this, &ApplicationStatistics::GetStatistics	 , ApplicationStatisticsFunctions::GetStatistics);
+		AddFunction(this, &ApplicationStatistics::AddAction		 , ApplicationStatisticsFunctions::AddAction);
+		AddFunction(this, &ApplicationStatistics::RemoveAction	 , ApplicationStatisticsFunctions::RemoveAction);
+		AddFunction(this, &ApplicationStatistics::SetDataCreation, ApplicationStatisticsFunctions::SetCreationData);
+		AddFunction(this, &ApplicationStatistics::GetActions	 , ApplicationStatisticsFunctions::GetActions);
 	}
 
 private:
@@ -57,11 +58,17 @@ private:
 			if (args.GetArgument(count)) {
 				Actions[key] = count;
 			} else {
-				Actions[key] += 1;
+				if (Actions.find(key) != Actions.end()) {
+					Actions[key] += 1;
+				}
+				else Actions[key] = 1;
 			}
 		}
-		
-		
+	}
+
+	void GetActions(ProgramManager::MessageArgs & args)
+	{
+		args.Arguments.push_back(ProgramManager::Argument::Create(Actions));
 	}
 
 	void RemoveAction(ProgramManager::MessageArgs args)

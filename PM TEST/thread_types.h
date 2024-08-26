@@ -1,12 +1,14 @@
 #pragma once
 
-enum class ThreadType
+struct ThreadType
 {
-	Console
-	, Painter
-	, GUI
-	, DataItemsDisp
-	, Example1
-	, Example2
-	, Example3
+	enum {
+		Console
+		, Painter
+		, GUI
+		, DataItemsDisp
+		, Example1
+		, Example2
+		, Example3
+	};
 };

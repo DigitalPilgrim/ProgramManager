@@ -2,6 +2,7 @@
 
 #include "dispatcher.h"
 #include "message.h"
+#include "ApplicationObject.h"
 
 ProgramManager::ApplicationManager::ApplicationManager()
 {
@@ -30,7 +31,7 @@ void ProgramManager::ApplicationManager::Init()
 {
 	for (auto& disp : mObjects)
 	{
-		disp->Init();
+		disp->Init(disp);
 	}
 }
 
@@ -64,34 +65,29 @@ void ProgramManager::ApplicationManager::WaitForEnd()
 	} while (mRun);
 }
 
-void ProgramManager::ApplicationManager::SendFunction(int thread_type, Message msg)
+bool ProgramManager::ApplicationManager::GetApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type)
+{
+	for (auto& disp : mObjects) {
+		if (disp->Type == type) {
+			obj = disp;
+			return true;
+		}
+	}
+	for (auto& disp : mDispatchers)
+	{
+		if (disp->GetObject(obj, type)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void ProgramManager::ApplicationManager::Send(int thread_type, Message msg)
 {
 	for (auto& disp : mDispatchers)
 	{
 		if (disp->GetThreadType() == thread_type) {
 			disp->Send(msg);
-			break;
-		}
-	}
-}
-
-void ProgramManager::ApplicationManager::SendSet(int thread_type, Message msg)
-{
-	for (auto& disp : mDispatchers)
-	{
-		if (disp->GetThreadType() == thread_type) {
-			disp->SendSet(msg);
-			break;
-		}
-	}
-}
-
-void ProgramManager::ApplicationManager::SendGet(int thread_type, Message msg)
-{
-	for (auto& disp : mDispatchers)
-	{
-		if (disp->GetThreadType() == thread_type) {
-			disp->SendGet(msg);
 			break;
 		}
 	}

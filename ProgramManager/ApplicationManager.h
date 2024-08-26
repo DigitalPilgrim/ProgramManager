@@ -8,6 +8,7 @@ namespace ProgramManager
 
 	class ApplicationManager : public ApplicationObject
 	{
+	protected:
 		std::list < std::shared_ptr<ApplicationObject> > mObjects;
 		std::list <Dispatcher *> mDispatchers;
 		bool mRun = false;
@@ -29,7 +30,7 @@ namespace ProgramManager
 				mObjects.push_back(std::make_shared<T>(this));
 				auto obj = mObjects.back();
 				T* disp;
-				obj->GetObjectP((T*&)disp);
+				obj->GetObjectP(/*(T*&)*/disp);
 				mDispatchers.push_back(disp);
 				return true;
 			}
@@ -46,11 +47,11 @@ namespace ProgramManager
 		void Stop();
 		void WaitForEnd();
 
+		bool GetApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type);
+
 		// --------------------------------------------------------------
 
-		void SendFunction(int thread_type, Message msg);
-		void SendSet(int thread_type, Message msg);
-		void SendGet(int thread_type, Message msg);
+		void Send(int thread_type, Message msg);
 
 		// --------------------------------------------------------------
 

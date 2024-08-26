@@ -13,12 +13,7 @@ void ProgramManager::ApplicationObject::Get(MessageArgs& args, int idFunction)
 	ExecuteGet(args, idFunction);
 }
 
-void ProgramManager::ApplicationObject::ExecuteMessage(Message& msg, MessageType type)
+void ProgramManager::ApplicationObject::ExecuteMessage(Message& msg)
 {
-	switch (type)
-	{
-	case MessageType::Set:		mDispatcher.SendSet(msg); break;
-	case MessageType::Get:		mDispatcher.SendGet(msg); break;
-	case MessageType::Function: mDispatcher.Send(msg); break;
-	}
+	mDispatcher.Send(msg);
 }

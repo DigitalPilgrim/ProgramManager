@@ -28,9 +28,10 @@ public:
 		AddFunction(this, &ExampleSimpleData::SetDataInt2, (int)ExampleSimpleDataFunctions::SetDataInt2);
 		AddFunction(this, &ExampleSimpleData::GetDataInt1, (int)ExampleSimpleDataFunctions::GetDataInt1);
 		AddFunction(this, &ExampleSimpleData::GetDataInt2, (int)ExampleSimpleDataFunctions::GetDataInt2);
+		AddFunction(this, &ExampleSimpleData::SetData, (int)ExampleSimpleDataFunctions::SetData);
+		AddFunction(this, &ExampleSimpleData::GetData, (int)ExampleSimpleDataFunctions::GetData);
 	}
 
-private:
 	void SetTextData(ProgramManager::MessageArgs args)
 	{
 		args.GetArgument(mData_Text1);
@@ -60,7 +61,22 @@ private:
 	{
 		args.Arguments.push_back(ProgramManager::Argument::Create(mData_Int2));
 	}
-public:
+
+	void SetData(ProgramManager::MessageArgs args) 
+	{
+		args.GetArgument(mData_Text1);
+		args.GetArgument(mData_Int1);
+		args.GetArgument(mData_Int2);
+	}
+
+	void GetData(ProgramManager::MessageArgs args)
+	{
+		using namespace ProgramManager;
+		args.Arguments.push_back(Argument::Create(mData_Text1));
+		args.Arguments.push_back(Argument::Create(mData_Int1));
+		args.Arguments.push_back(Argument::Create(mData_Int2));
+	}
+
 	std::string GetTextData() const { return mData_Text1; }
 	int			GetIntData1() const { return mData_Int1; }
 	int			GetIntData2() const { return mData_Int2; }

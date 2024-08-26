@@ -2,7 +2,6 @@
 
 #include "ApplicationManager.h"
 #include "message.h"
-#include "message_resolver.h"
 
 ProgramManager::Dispatcher::Dispatcher(int thread_type, ApplicationManager* manager)
 	: mThreadType(thread_type), mManager(manager)
@@ -19,6 +18,18 @@ ProgramManager::Dispatcher::~Dispatcher()
 
 void ProgramManager::Dispatcher::Send(Message msg)
 {
+	// --------------------------------------------------------------
+	// tato cast kodu nie je uplne v poriadku, pretoze ak sa vytvaraju
+	// objekty za behu programu, moze si vypitat objekt ktory sa maze
+	// inak povedane toto zatial nie je navrhnute (zabezpecene)
+	if (msg.GetTypeObjectBack() > 0) {
+		std::shared_ptr<ApplicationObject> obj;
+		if (mManager->GetApplicationObject(obj, msg.GetTypeObjectBack())) {
+			msg.SetObjectBack(obj);
+		}
+	}
+	// --------------------------------------------------------------
+	
 	std::unique_lock<std::mutex> uLock(mMTX, std::defer_lock);
 	do {
 		if (uLock.try_lock()) {
@@ -32,44 +43,108 @@ void ProgramManager::Dispatcher::Send(Message msg)
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::SendSet(Message msg)
+void ProgramManager::Dispatcher::ManagerSend(int thread_type, Message msg)
 {
-	msg.SetType(MessageType::Set);
-	Send(msg);
+	mManager->Send(thread_type, msg);
 }
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::SendGet(Message msg)
+void ProgramManager::Dispatcher::AddObject(Object object)
 {
-	msg.SetType(MessageType::Get);
-	Send(msg);
+	mObjects.push_back(object);
 }
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::ManagerSendFunction(int thread_type, Message msg)
+bool ProgramManager::Dispatcher::RemoveObject(Object& object)
 {
-	mManager->SendFunction(thread_type, msg);
+	mObjects.remove(object);
+	return true;
 }
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::ManagerSendSet(int thread_type, Message msg)
+bool ProgramManager::Dispatcher::GetObject(Object& object, size_t type)
 {
-	mManager->SendSet(thread_type, msg);
+	for (auto obj : mObjects)
+	{
+		if (obj->Type == type)
+		{
+			object = obj;
+			return true;
+		}
+	}
+	return false;
 }
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::ManagerSendGet(int thread_type, Message msg)
+void ProgramManager::Dispatcher::Resolve(Message& msg)
 {
-	mManager->SendGet(thread_type, msg);
+	Object object;
+
+	if (msg.GetType() == MessageType::Function)
+	{
+		auto function = msg.GetFunction();
+		if (function)
+		{
+			function(msg.GetArguments());
+		}
+	}
+	else if (msg.GetType() == MessageType::Set)
+	{
+		for (auto obj : mObjects)
+		{
+			if (obj->Type == msg.GetTypeObjectFor())
+			{
+				object = obj;
+				break;
+			}
+		}
+
+		if (object) {
+			object->Set(msg.GetArguments(), msg.GetFunctionIdFor());
+		}
+	}
+	else if (msg.GetType() == MessageType::Get)
+	{
+		Object getFrom;
+		for (auto obj : mObjects)
+		{
+			if (obj->Type == msg.GetTypeObjectFor())
+			{
+				getFrom = obj;
+				break;
+			}
+		}
+		if (getFrom) {
+			auto args = msg.GetArguments();
+			getFrom->Get(args, msg.GetFunctionIdFor());
+			auto function = msg.GetFunction();
+
+			object = msg.GetMessageBack();
+			if (object)
+			{
+				if (function) {
+					Message new_message = Message::Set(function, args);
+					object->ExecuteMessage(new_message);
+				}
+				else {
+					Message new_message = Message::Set(msg.GetMessageBack()->Type, args, msg.GetFunctionIdBack());
+					object->ExecuteMessage(new_message);
+				}
+			}
+			else if (function) {
+				function(args);
+			}
+		}
+	}
 }
 
 // ------------------------------------------------------------------
 
-void ProgramManager::Dispatcher::ResolveMessages(MessageResolver* resolver)
+void ProgramManager::Dispatcher::ResolveMessages()
 {
 	std::unique_lock<std::mutex> uLock(mMTX, std::defer_lock);
 	std::list<Message> messages;
@@ -82,7 +157,7 @@ void ProgramManager::Dispatcher::ResolveMessages(MessageResolver* resolver)
 
 	for (auto& msg : messages)
 	{
-		resolver->Resolve(msg);
+		Resolve(msg);
 	}
 }
 
@@ -110,7 +185,7 @@ void ProgramManager::Dispatcher::Run()
 		mThreadId = std::this_thread::get_id();
 		mRun = true;
 		do {
-			ResolveMessages(mResolver);
+			ResolveMessages();
 			Update();
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		} while (mRun);
@@ -121,7 +196,7 @@ void ProgramManager::Dispatcher::Run()
 
 void ProgramManager::Dispatcher::RunStep()
 {
-	ResolveMessages(mResolver);
+	ResolveMessages();
 	Update();
 }
 

@@ -37,12 +37,28 @@ namespace ProgramManager
 
 		 template <typename T>
 		 bool GetArgument(T & a) {
-			 for (auto& arg : Arguments) {
-				 if (arg->GetArgument(a)) {
-					 return true;
+			 //std::shared_ptr<Argument> a;
+			 bool success = false;
+			 for (std::vector<std::shared_ptr<Argument>>::iterator it = Arguments.begin(); it != Arguments.end();)
+			 {
+				 if ((*it)->GetArgument(a)) {
+					 //obj = *it;
+					 Arguments.erase(it);
+					 success = true;
+					 break;
 				 }
 			 }
-			 return false;
+			 /*for (auto& arg : Arguments) {
+				 if (arg->GetArgument(a)) {
+					 obj = arg;
+					 success = true;
+					 break;
+				 }
+			 }
+			 if (success) {
+				 Arguments.erase(obj);
+			 }*/
+			 return success;
 		 }
 
 		 // --------------------------------------------------------

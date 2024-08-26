@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Examples 2">
       <UniqueIdentifier>{0fe158df-90c1-4b78-b87a-52c16861c259}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{8d016f1a-065d-4b57-b001-d68a5c6fa560}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GUI.h">
@@ -70,6 +73,15 @@
       <Filter>Source Files\Dispatchers</Filter>
     </ClInclude>
     <ClInclude Include="Objects.h">
+      <Filter>Source Files\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleFunctions.h">
+      <Filter>Source Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="ExampleApplicationManager.h">
+      <Filter>Source Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Main_Example2.h">
       <Filter>Source Files\Main</Filter>
     </ClInclude>
   </ItemGroup>

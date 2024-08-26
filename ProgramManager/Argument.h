@@ -14,7 +14,7 @@ namespace ProgramManager
 	class ObjectBase
 	{
 	protected:
-		size_t mType;
+		size_t mType = 0;
 	public:
 		virtual ~ObjectBase() {}
 

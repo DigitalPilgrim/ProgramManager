@@ -32,6 +32,8 @@ public:
 	}
 };
 
+// ================================================================================================================
+
 bool is_number(const std::string& s)
 {
 	std::string::const_iterator it = s.begin();
@@ -39,6 +41,7 @@ bool is_number(const std::string& s)
 	return !s.empty() && it == s.end();
 }
 
+// ================================================================================================================
 
 void Example1()
 {
@@ -71,9 +74,10 @@ void Example1()
 						std::cout << "Enter the text: ";
 						edit.clear();
 						std::getline(std::cin, edit);
-						main.SendSet((int)ThreadType::Console
-										 , Message(ObjectTypes::Get(Objects::ExampleSimpleData) /*ObjectType::GetStaticType<ExampleSimpleData>()*/
-										 , MessageArgs(Argument::Create(edit)), (int)ExampleSimpleDataFunctions::SetTextData)
+						main.Send(ThreadType::Console
+										 , Message::Set(ObjectTypes::Get(Objects::ExampleSimpleData) /*ObjectType::GetStaticType<ExampleSimpleData>()*/
+																, MessageArgs(Argument::Create(edit))
+																, ExampleSimpleDataFunctions::SetTextData)
 						);
 						break;
 					}
@@ -83,9 +87,11 @@ void Example1()
 						std::getline(std::cin, edit);
 						if (is_number(edit)) {
 							int data = std::atoi(edit.c_str());
-							main.SendSet((int)ThreadType::Console
-									, Message(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
-									, MessageArgs(Argument::Create(data)), (int)ExampleSimpleDataFunctions::SetDataInt1)
+							main.Send(ThreadType::Console
+									, Message::Set(
+										ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
+										, MessageArgs(Argument::Create(data))
+										, ExampleSimpleDataFunctions::SetDataInt1)
 							);
 						}
 						break;
@@ -96,9 +102,11 @@ void Example1()
 						std::getline(std::cin, edit);
 						if (is_number(edit)) {
 							int data = std::atoi(edit.c_str());
-							main.SendSet((int)ThreadType::Console
-								, Message(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
-									, MessageArgs(Argument::Create(data)), (int)ExampleSimpleDataFunctions::SetDataInt2)
+							main.Send(ThreadType::Console
+								, Message::Set(
+									ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
+									, MessageArgs(Argument::Create(data))
+									, ExampleSimpleDataFunctions::SetDataInt2)
 							);
 						}
 						break;
@@ -117,9 +125,10 @@ void Example1()
 				case 1: {
 					std::cout << "Text data: ";
 					
-					main.SendGet((int)ThreadType::Console
-						, Message(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
-							, (int)ExampleSimpleDataFunctions::GetTextData
+					main.Send(ThreadType::Console
+						, Message::Get(
+							ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
+							, ExampleSimpleDataFunctions::GetTextData
 							, [](MessageArgs args) {
 								std::string text;
 								if (args.GetArgument(text)) {
@@ -127,16 +136,15 @@ void Example1()
 								} else {
 									std::cout << "not found;\n";
 								}
-							}
-							, MessageArgs())
+							})
 					);
 					break;
 				}
 				case 2: {
 					std::cout << "Data int 1: ";
-					main.SendGet((int)ThreadType::Console
-						, Message(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
-							, (int)ExampleSimpleDataFunctions::GetDataInt1
+					main.Send(ThreadType::Console
+						, Message::Get(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
+							, ExampleSimpleDataFunctions::GetDataInt1
 							, [](MessageArgs args) {
 								int data;
 								if (args.GetArgument(data)) {
@@ -145,16 +153,15 @@ void Example1()
 								else {
 									std::cout << "not found;\n";
 								}
-							}
-							, MessageArgs())
+							})
 					);
 					break;
 				}
 				case 3: {
 					std::cout << "Data int 2: ";
-					main.SendGet((int)ThreadType::Console
-						, Message(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
-							, (int)ExampleSimpleDataFunctions::GetDataInt2
+					main.Send((int)ThreadType::Console
+						, Message::Get(ObjectTypes::Get(Objects::ExampleSimpleData) //ObjectType::GetStaticType<ExampleSimpleData>()
+							, ExampleSimpleDataFunctions::GetDataInt2
 							, [](MessageArgs args) {
 								int data;
 								if (args.GetArgument(data)) {
@@ -163,8 +170,7 @@ void Example1()
 								else {
 									std::cout << "not found;\n";
 								}
-							}
-							, MessageArgs())
+							})
 					);
 					break;
 				}

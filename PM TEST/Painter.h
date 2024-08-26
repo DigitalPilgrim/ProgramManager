@@ -5,14 +5,13 @@
 #include "ApplicationStatistics.h"
 
 #include <ApplicationObject.h>
-#include <message_resolver.h>
 #include <dispatcher.h>
+#include <message.h>
 
 #include "Objects.h"
 
 class Painter
 	: public ProgramManager::ApplicationObject
-	, public ProgramManager::MessageResolver
 	, public ProgramManager::Dispatcher
 {
 	std::shared_ptr<ApplicationStatistics> mStatistics;
@@ -21,14 +20,20 @@ public:
 
 	// ------------------------------------------------------------------
 
-	void Init() override
+	void Init(std::shared_ptr<ApplicationObject>& obj) override
 	{
 		ObjectTypes::Register<Painter>(Objects::Painter);
-		SetMessageResolver(this);
 		mDispatcher = ProgramManager::DispatcherHolder(this);
+
 
 		mStatistics = std::make_shared<ApplicationStatistics>(ProgramManager::DispatcherHolder(this));
 		AddObject(mStatistics);
+
+		for (auto& o : mObjects) {
+			o->Init();
+		}
+
+		AddObject(obj);
 	}
 
 	// ------------------------------------------------------------------

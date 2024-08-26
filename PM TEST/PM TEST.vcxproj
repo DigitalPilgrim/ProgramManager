@@ -146,6 +146,8 @@
     <ClInclude Include="ApplicationStatistics.h" />
     <ClInclude Include="ApplicationStatisticsFunctions.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="ConsoleFunctions.h" />
+    <ClInclude Include="ExampleApplicationManager.h" />
     <ClInclude Include="ExampleDataItems.h" />
     <ClInclude Include="ExampleDataItemsDispatcher.h" />
     <ClInclude Include="ExampleDataItemsFunctions.h" />
@@ -153,6 +155,7 @@
     <ClInclude Include="ExampleSimpleDataFunctions.h" />
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Main_Example1.h" />
+    <ClInclude Include="Main_Example2.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="Painter.h" />
     <ClInclude Include="thread_types.h" />

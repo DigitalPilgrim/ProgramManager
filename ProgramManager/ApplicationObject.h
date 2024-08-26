@@ -32,6 +32,7 @@ namespace ProgramManager {
 		virtual ~ApplicationObject() {}
 
 		virtual void Init() {}
+		virtual void Init(std::shared_ptr<ApplicationObject> & obj) {}
 
 		template <typename T>
 		bool GetObject(T& object) {
@@ -58,8 +59,8 @@ namespace ProgramManager {
 		virtual void Get(MessageArgs& args, int idFunction = -1);
 
 	private:
-		friend class /*ProgramManager::*/MessageResolver;
-		void ExecuteMessage(Message& msg, MessageType type);
+		friend class /*ProgramManager::*/Dispatcher;
+		void ExecuteMessage(Message& msg);
 	};
 }
 

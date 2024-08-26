@@ -39,9 +39,6 @@
     <ClInclude Include="message.h">
       <Filter>Source Files\Message</Filter>
     </ClInclude>
-    <ClInclude Include="message_resolver.h">
-      <Filter>Source Files\Message</Filter>
-    </ClInclude>
     <ClInclude Include="dispatcher.h">
       <Filter>Source Files\Dispatcher</Filter>
     </ClInclude>

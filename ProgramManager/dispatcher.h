@@ -1,6 +1,7 @@
 #pragma once
 
 #include "dispatcher_interface.h"
+//#include "ApplicationObject.h"
 
 #include <mutex>
 #include <thread>
@@ -9,15 +10,19 @@
 namespace ProgramManager
 {
 	class Message;
-	class MessageResolver;
 
 	// ------------------------------------------------------------------
 	// ------------------------------------------------------------------
 
 	class ApplicationManager;
+	class ApplicationObject;
 
 	class Dispatcher : public DispatcherInterface
 	{
+	public:
+		typedef std::shared_ptr<ApplicationObject> Object;
+		typedef std::list<Object>				   ListOfObjects;
+	private:
 		ApplicationManager * mManager = nullptr;
 		std::mutex			mMTX;
 		std::list<Message>	mMessages;
@@ -25,7 +30,8 @@ namespace ProgramManager
 		std::thread         mThread;
 		int					mThreadType = -1;
 		bool				mRun = false;
-		MessageResolver	  * mResolver = nullptr;
+	protected:
+		ListOfObjects		mObjects;
 	public:
 		Dispatcher(int thread_type, ApplicationManager* manager);
 
@@ -40,19 +46,45 @@ namespace ProgramManager
 		// --------------------------------------------------------------
 
 		void Send(Message msg) override;
-		void SendSet(Message msg) override;
-		void SendGet(Message msg) override;
 
 		// --------------------------------------------------------------
 
-		virtual void ManagerSendFunction(int thread_type, Message msg) override;
-		virtual void ManagerSendSet     (int thread_type, Message msg) override;
-		virtual void ManagerSendGet     (int thread_type, Message msg) override;
+		virtual void ManagerSend(int thread_type, Message msg) override;
 
 		// --------------------------------------------------------------
+		// --------------------------------------------------------------
+
+		/*template<typename T>
+		bool GetObject(std::shared_ptr<T>& object)
+		{
+			for (Object o : mObjects) {
+				if (o->Type == ObjectType::GetStaticType<T>()) {
+					object = std::static_pointer_cast<T>(o);
+					return true;
+				}
+			}
+			return false;
+		}*/
+
+		// --------------------------------------------------------------
+
+		void AddObject(Object object);
+		bool RemoveObject(Object& object);
+		bool GetObject(Object& object, size_t type);
+
+		// --------------------------------------------------------------
+
+		void Resolve(Message& msg);
+
+		// --------------------------------------------------------------
+
 	private:
-		void ResolveMessages(MessageResolver* resolver);
+		void ResolveMessages();
 	public:
+		// --------------------------------------------------------------
+		
+		//virtual bool GetApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t objType) { return false; }
+
 		// --------------------------------------------------------------
 
 		void AfterStop();
@@ -62,8 +94,6 @@ namespace ProgramManager
 		virtual void Update() {}
 
 		// --------------------------------------------------------------
-	protected:
-		void SetMessageResolver(MessageResolver* res) { mResolver = res; }
 
 	};
 }

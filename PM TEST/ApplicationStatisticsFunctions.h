@@ -3,12 +3,20 @@
 
 struct ApplicationStatisticsFunctions
 {
-	enum class Functions
-	{
+	enum {
 		AddAction
 		, RemoveAction
 		, SetCreationData
 		, SetStatistics
 		, GetStatistics
+		, GetActions
+	};
+};
+
+struct TestEnum
+{
+	enum {
+		HM
+		, AddAction
 	};
 };

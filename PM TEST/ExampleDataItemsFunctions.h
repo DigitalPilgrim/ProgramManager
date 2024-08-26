@@ -1,9 +1,11 @@
 #pragma once
 
-enum class ExampleDataItemsFunctions
+struct ExampleDataItemsFunctions
 {
-	AddItem
-	, GetItem
-	, ClearItems
-	, Counts
+	enum {
+		AddItem
+		, GetItem
+		, ClearItems
+		, Counts
+	};
 };

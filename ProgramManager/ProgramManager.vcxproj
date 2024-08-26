@@ -138,7 +138,6 @@
     <ClInclude Include="function_holder.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="message_args.h" />
-    <ClInclude Include="message_resolver.h" />
     <ClInclude Include="message_type.h" />
     <ClInclude Include="ObjectType.h" />
   </ItemGroup>

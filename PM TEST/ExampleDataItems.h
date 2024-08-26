@@ -24,23 +24,48 @@ public:
 		AddFunction(this, &ExampleDataItems::Counts		, (int)ExampleDataItemsFunctions::Counts);
 	}
 
-	void AddItem(ProgramManager::MessageArgs args)
+	/*void AddItem(ProgramManager::MessageArgs args)
 	{
 		ExampleSimpleData data;
 		if (args.GetArgument(data)) {
 			mItems.push_back(data);
 		}
+	}*/
+
+	void AddItem(ProgramManager::MessageArgs args)
+	{
+		using namespace ProgramManager;
+		std::string text;
+		int val1 = 0;
+		int val2 = 0;
+		args.GetArgument(text);
+		args.GetArgument(val1);
+		args.GetArgument(val2);
+		mItems.push_back(ExampleSimpleData(text, val1, val2));
 	}
 
 	void GetItem(ProgramManager::MessageArgs & args)
 	{
 		int id = 0;
 		if (args.GetArgument(id)) {
+			// ------------------------------------------------------------------------------------------------
+			// pre prebrati pozadovaneho arguemtnu alebo argumentov pre Get funnkciu, trebe vymazat argumenty
+			// predtym nez sa naplnia argumentmi ktore sa maju predat, lebo ak tam zostane ten argument
+			// tak sa prenesie dalej do set funkcie ktora s tym ale nemusi ratat. A ani by nemala.
+			// 
+			// argumenty sa musia vkladat a preberat v rovnakom poradi, inak pri preberani ak sa preberaju
+			// argumenty rovnakeho typu, nebudu sediet s hodnotami
+			// ------------------------------------------------------------------------------------------------
+			args.Arguments.clear();
 			int i = 0;
 			for (auto& item : mItems) {
 				if (i == id) {
 					args.Arguments.clear();
-					args.Arguments.push_back(ProgramManager::Argument::Create(item));
+					//args.Arguments.push_back(ProgramManager::Argument::Create(item));
+					args.Arguments.push_back(ProgramManager::Argument::Create(id));
+					args.Arguments.push_back(ProgramManager::Argument::Create(item.GetTextData()));
+					args.Arguments.push_back(ProgramManager::Argument::Create(item.GetIntData1()));
+					args.Arguments.push_back(ProgramManager::Argument::Create(item.GetIntData2()));
 					break;
 				}
 				++i;
