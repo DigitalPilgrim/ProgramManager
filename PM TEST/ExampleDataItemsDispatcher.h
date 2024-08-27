@@ -23,7 +23,7 @@ public:
 
 	// ------------------------------------------------------------------
 
-	void Init(std::shared_ptr<ApplicationObject>& obj) override
+	void Init() override
 	{
 		ObjectTypes::Register< ExampleDataItemsDispatcher>(Objects::ExampleDataItemsDispatcher);
 		mDispatcher = ProgramManager::DispatcherHolder(this);
@@ -35,8 +35,6 @@ public:
 		for (auto& o : mObjects) {
 			o->Init();
 		}
-
-		AddObject(obj);
 	}
 
 	// ------------------------------------------------------------------

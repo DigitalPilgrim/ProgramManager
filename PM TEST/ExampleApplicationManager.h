@@ -20,9 +20,5 @@ public:
 		if (CreateDispatcher<ExampleDataItemsDispatcher	>()) { std::cout << "ExampleDataItemsDispatcher Created;\n"; }
 
 		ProgramManager::ApplicationManager::Init();
-
-		for (auto& obj : mObjects) {
-			
-		}
 	}
 };

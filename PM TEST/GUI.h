@@ -28,7 +28,7 @@ public:
 
 	// ------------------------------------------------------------------
 
-	void Init(std::shared_ptr<ApplicationObject>& obj) override
+	void Init() override
 	{
 		ObjectTypes::Register<GUI>(Objects::GUI);
 		mDispatcher = ProgramManager::DispatcherHolder(this);
@@ -39,8 +39,6 @@ public:
 		for (auto& o : mObjects) {
 			o->Init();
 		}
-
-		AddObject(obj);
 	}
 
 	// ------------------------------------------------------------------

@@ -20,7 +20,7 @@ public:
 
 	// ------------------------------------------------------------------
 
-	void Init(std::shared_ptr<ApplicationObject>& obj) override
+	void Init() override
 	{
 		ObjectTypes::Register<Painter>(Objects::Painter);
 		mDispatcher = ProgramManager::DispatcherHolder(this);
@@ -32,8 +32,6 @@ public:
 		for (auto& o : mObjects) {
 			o->Init();
 		}
-
-		AddObject(obj);
 	}
 
 	// ------------------------------------------------------------------

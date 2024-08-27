@@ -31,7 +31,7 @@ void ProgramManager::ApplicationManager::Init()
 {
 	for (auto& disp : mObjects)
 	{
-		disp->Init(disp);
+		disp->Init();
 	}
 }
 

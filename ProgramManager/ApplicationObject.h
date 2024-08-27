@@ -32,7 +32,7 @@ namespace ProgramManager {
 		virtual ~ApplicationObject() {}
 
 		virtual void Init() {}
-		virtual void Init(std::shared_ptr<ApplicationObject> & obj) {}
+		//virtual void Init(std::shared_ptr<ApplicationObject> & obj) {}
 
 		template <typename T>
 		bool GetObject(T& object) {
