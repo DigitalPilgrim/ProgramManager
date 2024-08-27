@@ -94,15 +94,18 @@ void ProgramManager::Dispatcher::Resolve(Message& msg)
 	}
 	else if (msg.GetType() == MessageType::Set)
 	{
-		for (auto obj : mObjects)
+		if (!mManager->GetDispatcherAsApplicationObject(object, msg.GetTypeObjectFor()))
 		{
-			if (obj->Type == msg.GetTypeObjectFor())
+			for (auto obj : mObjects)
 			{
-				object = obj;
-				break;
+				if (obj->Type == msg.GetTypeObjectFor())
+				{
+					object = obj;
+					break;
+				}
 			}
 		}
-
+		
 		if (object) {
 			object->Set(msg.GetArguments(), msg.GetFunctionIdFor());
 		}
@@ -110,14 +113,18 @@ void ProgramManager::Dispatcher::Resolve(Message& msg)
 	else if (msg.GetType() == MessageType::Get)
 	{
 		Object getFrom;
-		for (auto obj : mObjects)
+		if (!mManager->GetDispatcherAsApplicationObject(getFrom, msg.GetTypeObjectFor()))
 		{
-			if (obj->Type == msg.GetTypeObjectFor())
+			for (auto obj : mObjects)
 			{
-				getFrom = obj;
-				break;
+				if (obj->Type == msg.GetTypeObjectFor())
+				{
+					getFrom = obj;
+					break;
+				}
 			}
 		}
+		
 		if (getFrom) {
 			auto args = msg.GetArguments();
 			getFrom->Get(args, msg.GetFunctionIdFor());

@@ -67,15 +67,24 @@ void ProgramManager::ApplicationManager::WaitForEnd()
 
 bool ProgramManager::ApplicationManager::GetApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type)
 {
-	for (auto& disp : mObjects) {
-		if (disp->Type == type) {
-			obj = disp;
-			return true;
-		}
+	if (GetDispatcherAsApplicationObject(obj, type))
+	{
+		return true;
 	}
 	for (auto& disp : mDispatchers)
 	{
 		if (disp->GetObject(obj, type)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool ProgramManager::ApplicationManager::GetDispatcherAsApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type)
+{
+	for (auto& disp : mObjects) {
+		if (disp->Type == type) {
+			obj = disp;
 			return true;
 		}
 	}

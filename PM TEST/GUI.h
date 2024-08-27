@@ -65,7 +65,7 @@ public:
 				, Message::Set(
 					ObjectTypes::Get(Objects::ExampleSimpleData)
 					, MessageArgs({
-						  Argument::Create("qwerty")
+						  Argument::Create(std::string("qwerty"))
 						, Argument::Create(333)
 						, Argument::Create(777)
 						})
@@ -98,7 +98,7 @@ public:
 			ManagerSend(ThreadType::Console
 				, Message::Set(
 					ObjectTypes::Get(Objects::Console)
-					, MessageArgs(Argument::Create("SimpleData_1"))
+					, MessageArgs(Argument::Create(std::string("SimpleData_1")))
 					, ConsoleFunctions::Display
 				)
 			);
@@ -118,6 +118,7 @@ public:
 						std::map<std::string, int> actions;
 						args.GetArgument(actions);
 
+						std::cout << "------------------------------------------------------\n";
 						std::cout << "Display Actions from Console, message sent from GUI\n";
 						if (actions.size()) {
 							for (auto& a : actions) {
@@ -163,13 +164,17 @@ public:
 		else if (counter == 6) {
 			ManagerSend(ThreadType::Console
 				, Message::Set(
-					[](MessageArgs) { std::cout << "Press enter to Exit: "; }
+					[](MessageArgs) { 
+						std::cout << "-------------------------------------------------------------\n"; 
+						std::cout << "Press enter to Exit: "; 
+					}
 			, MessageArgs()));
+			interval = 1;
 		}
 
 
-		if (counter >= 0) ++counter;
-		else counter = 0;
+		if (counter >= 0 && counter < 100) ++counter;
+		//else counter = 0;
 	}
 
 	// ------------------------------------------------------------------

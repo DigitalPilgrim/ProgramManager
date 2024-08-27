@@ -69,7 +69,7 @@ public:
 		args.GetArgument(mData_Int2);
 	}
 
-	void GetData(ProgramManager::MessageArgs args)
+	void GetData(ProgramManager::MessageArgs & args)
 	{
 		using namespace ProgramManager;
 		args.Arguments.push_back(Argument::Create(mData_Text1));

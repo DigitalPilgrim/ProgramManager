@@ -18,7 +18,7 @@ class Console
 {
 	std::shared_ptr<ExampleSimpleData> mSimpleData;
 public:
-	Console(ProgramManager::ApplicationManager* manager) : Dispatcher((int)ThreadType::Console, manager) { SetType<Console>(); }
+	Console(ProgramManager::ApplicationManager* manager) : Dispatcher(ThreadType::Console, manager) { SetType<Console>(); }
 
 	// ------------------------------------------------------------------
 
@@ -60,6 +60,7 @@ public:
 						args.GetArgument(text);
 						args.GetArgument(v1);
 						args.GetArgument(v2);
+						std::cout << "---------------------------------------------------------------------" << std::endl;
 						std::cout << "Console | Simple Data (" << text << ", " << v1 << ", " << v2 << ")" << std::endl;
 					}
 				));

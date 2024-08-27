@@ -48,6 +48,7 @@ namespace ProgramManager
 		void WaitForEnd();
 
 		bool GetApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type);
+		bool GetDispatcherAsApplicationObject(std::shared_ptr<ApplicationObject>& obj, size_t type);
 
 		// --------------------------------------------------------------
 
